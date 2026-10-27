@@ -1,0 +1,4 @@
+project_id = "dsa-mastery-dashboard"
+
+[functions.dsa-ai-coach]
+verify_jwt = true
