@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101827">
+<title>DSA Mastery Dashboard</title>
+<style>
+:root{--bg:#0b1020;--panel:#121a2b;--panel2:#172238;--ink:#edf2ff;--muted:#9aa8c4;--line:#2a3853;--accent:#8eb4ff;--accent2:#b6f09c;--danger:#ffb39d;--warn:#ffd479;--radius:16px}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 15% 0%,#1b2c50 0,transparent 42%),var(--bg);color:var(--ink);font:15px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:var(--accent)}.wrap{max-width:1250px;margin:auto;padding:24px 18px 56px}
+header{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:22px}.eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:800}h1{font-size:clamp(28px,4vw,42px);letter-spacing:-.04em;line-height:1.08;margin:6px 0 8px}h2{font-size:20px;letter-spacing:-.02em;margin:0 0 12px}h3{font-size:15px;margin:0 0 7px}p{margin:6px 0 10px}.muted{color:var(--muted)}.small{font-size:12px;color:var(--muted)}.status{font-size:12px;color:var(--muted);padding:8px 11px;border:1px solid var(--line);border-radius:999px}
+.nav{display:flex;gap:8px;overflow:auto;padding:4px 0 16px;margin-bottom:12px}.nav button{white-space:nowrap;background:transparent;border:1px solid var(--line);color:var(--muted);padding:9px 13px;border-radius:999px}.nav button.active{background:var(--accent);border-color:var(--accent);color:#081224;font-weight:800}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px}.card{background:linear-gradient(150deg,rgba(255,255,255,.025),transparent 55%),var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:17px;min-width:0}.span-12{grid-column:span 12}.span-8{grid-column:span 8}.span-7{grid-column:span 7}.span-6{grid-column:span 6}.span-5{grid-column:span 5}.span-4{grid-column:span 4}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:14px}.stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px}.stat strong{display:block;font-size:28px;letter-spacing:-.04em}.stat span{font-size:12px;color:var(--muted)}
+input,select,textarea{background:#0d1526;color:var(--ink);border:1px solid var(--line);border-radius:9px;padding:10px 11px;width:100%;min-width:0}textarea{min-height:82px;resize:vertical}label{display:block;font-size:12px;font-weight:700;color:var(--muted);margin:9px 0 5px}.row{display:flex;gap:9px;align-items:center}.row>*{flex:1}.btn{background:var(--accent);color:#091225;border:0;border-radius:9px;padding:10px 13px;font-weight:800}.btn.secondary{background:var(--panel2);color:var(--ink);border:1px solid var(--line)}.btn.ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}.btn.danger{background:#4b2027;color:#ffd9d1;border:1px solid #7b3b45}.btn:disabled{opacity:.45;cursor:not-allowed}.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.pattern-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:9px}.pattern{border:1px solid var(--line);background:var(--panel2);color:var(--ink);text-align:left;padding:13px;border-radius:12px;min-height:90px}.pattern:hover{border-color:var(--accent)}.pattern b{display:block}.pattern .small{display:block;margin-top:5px}.bar{height:6px;background:#26334c;border-radius:99px;overflow:hidden;margin-top:9px}.bar span{display:block;height:100%;background:var(--accent2);width:0}.pill{display:inline-block;padding:3px 7px;border-radius:999px;background:#26334c;color:#c9d7f4;font-size:11px;margin:2px 3px 2px 0}.due{color:var(--warn)}.good{color:var(--accent2)}.bad{color:var(--danger)}.item{padding:12px 0;border-top:1px solid var(--line)}.item:first-child{border-top:0}.item p{margin:3px 0}.item-title{font-weight:800}.hidden{display:none!important}.stack{display:grid;gap:10px}.resource{padding:11px;border:1px solid var(--line);border-radius:11px;background:var(--panel2)}.resource a{font-weight:800;text-decoration:none}.resource a:hover{text-decoration:underline}.callout{border-left:3px solid var(--accent);background:#15213a;padding:12px;border-radius:0 10px 10px 0}.check{display:flex;gap:8px;align-items:flex-start;margin:7px 0}.check input{width:auto;margin-top:5px}.footer{margin-top:20px;color:var(--muted);font-size:12px}
+details{border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:8px 0;background:var(--panel2)}summary{cursor:pointer;font-weight:800}code{color:#d7e3ff;background:#0c1424;padding:2px 5px;border-radius:5px}
+@media(max-width:800px){.span-8,.span-7,.span-6,.span-5,.span-4{grid-column:span 12}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.wrap{padding:18px 12px 40px}.card{padding:14px}.row{flex-wrap:wrap}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+ <div><div class="eyebrow">Java · Interview preparation · 24-week system</div><h1>DSA Mastery Dashboard</h1><p class="muted">Learn patterns from base problems. Prove retention with cold redos. Use evidence, not solved counts.</p></div>
+ <div class="stack" style="min-width:200px"><span class="status" id="syncStatus">Local mode · this device only</span><button class="btn secondary" id="settingsBtn">Cloud sync / Settings</button></div>
+</header>
+<nav class="nav" id="nav">
+ <button class="active" data-tab="overview">Overview</button><button data-tab="patterns">Pattern map</button><button data-tab="log">Log a problem</button><button data-tab="reviews">Review queue</button><button data-tab="concepts">Concept notebook</button><button data-tab="tests">Practice tests</button><button data-tab="ai">AI coach</button><button data-tab="resources">Learning resources</button><button data-tab="settings">Settings & backup</button>
+</nav>
+<section id="tab-overview">
+ <div class="stats" id="stats"></div>
+ <div class="grid">
+  <section class="card span-7"><div class="section-head"><h2>Today's priorities</h2><span class="pill" id="todayLabel"></span></div><div id="nextActions"></div></section>
+  <section class="card span-5"><h2>Study loop</h2><div class="callout"><b>Every problem must produce evidence.</b><p class="small">Recognize the trigger → derive brute force → choose a pattern → state invariant → code in Java → explain complexity → record the mistake → redo cold.</p></div><div id="loopChecks"></div></section>
+  <section class="card span-12"><div class="section-head"><h2>Pattern mastery</h2><button class="btn ghost" data-go="patterns">Open full map</button></div><div id="overviewPatterns" class="pattern-grid"></div></section>
+  <section class="card span-6"><h2>Recent activity</h2><div id="recent"></div></section>
+  <section class="card span-6"><h2>Retention reality check</h2><div id="retention"></div></section>
+ </div>
+</section>
+<section id="tab-patterns" class="hidden">
+ <div class="card"><div class="section-head"><div><h2>Pattern map</h2><p class="muted">Select a family to inspect subpatterns, recognition triggers and base problems.</p></div><input id="patternSearch" placeholder="Search pattern or problem…" style="max-width:300px"></div><div id="patternMap" class="pattern-grid"></div><div id="patternDetail" style="margin-top:16px"></div></div>
+</section>
+<section id="tab-log" class="hidden">
+ <div class="grid">
+  <section class="card span-7"><h2>Log a problem attempt</h2><p class="muted">Log attempts honestly. “Solved cold” means no hints, editorial or prior code.</p>
+   <form id="problemForm">
+    <label>Problem title</label><input id="problemName" required placeholder="e.g. Koko Eating Bananas">
+    <div class="row"><div><label>Pattern family</label><select id="problemTopic"></select></div><div><label>Subpattern</label><input id="problemSubpattern" placeholder="e.g. binary search on answer"></div></div>
+    <div class="row"><div><label>Difficulty</label><select id="problemDifficulty"><option>Easy</option><option selected>Medium</option><option>Hard</option></select></div><div><label>Result</label><select id="problemResult"><option value="cold">Solved cold</option><option value="hint">Solved with hint</option><option value="editorial">Needed editorial</option><option value="failed">Could not solve</option><option value="redo">Redo / revision</option></select></div><div><label>Minutes</label><input id="problemMinutes" type="number" min="0" max="600" placeholder="e.g. 35"></div></div>
+    <label>Recognition trigger — what clue should have pointed to this pattern?</label><textarea id="problemTrigger" placeholder="e.g. Minimize the maximum speed; feasibility is monotonic."></textarea>
+    <label>Core idea / invariant in your own words</label><textarea id="problemIdea" placeholder="What remains true while the algorithm runs?"></textarea>
+    <label>Mistake / edge case / why you got stuck</label><textarea id="problemMistake" placeholder="Be specific. 'I forgot edge cases' is not specific."></textarea>
+    <label>Solution link (optional)</label><input id="problemUrl" type="url" placeholder="https://leetcode.com/problems/...">
+    <div class="actions"><button class="btn" type="submit">Save attempt + schedule reviews</button><button class="btn secondary" type="reset">Clear form</button></div>
+   </form>
+  </section>
+  <section class="card span-5"><h2>What counts as mastery?</h2>
+   <div class="check"><input type="checkbox"><span>Can explain the brute-force approach before optimizing.</span></div>
+   <div class="check"><input type="checkbox"><span>Can state the recognition trigger and required preconditions.</span></div>
+   <div class="check"><input type="checkbox"><span>Can write Java from a blank file without hints.</span></div>
+   <div class="check"><input type="checkbox"><span>Can justify correctness with an invariant or proof sketch.</span></div>
+   <div class="check"><input type="checkbox"><span>Can explain time and space complexity.</span></div>
+   <div class="check"><input type="checkbox"><span>Can solve at least two meaningful variations.</span></div>
+   <p class="small">These checkboxes are a reminder only. Use the attempt log and cold reviews as the source of truth.</p>
+   <div class="callout"><b>After each attempt</b><p class="small">Write a 10-line Java pattern template and one trigger sentence. Then redo on Day +1, +3, +7 and +14.</p></div>
+  </section>
+ </div>
+</section>
+<section id="tab-reviews" class="hidden"><div class="card"><div class="section-head"><div><h2>Review queue</h2><p class="muted">Due reviews are generated from each saved attempt. Passing a review requires a cold solve.</p></div><select id="reviewFilter" style="max-width:220px"><option value="due">Due now</option><option value="all">All scheduled</option><option value="failed">Needs repair</option></select></div><div id="reviewList"></div></div></section>
+<section id="tab-concepts" class="hidden"><div class="grid">
+ <section class="card span-5"><h2>Save a concept card</h2><form id="conceptForm"><label>Pattern family</label><select id="conceptTopic"></select><label>Subpattern / concept</label><input id="conceptName" required placeholder="e.g. monotonic feasibility predicate"><label>Trigger sentence</label><textarea id="conceptTrigger" placeholder="When the problem asks..., and feasibility is monotonic..."></textarea><label>10-line Java template / notes</label><textarea id="conceptTemplate" required placeholder="Write the reusable skeleton and key invariant."></textarea><label>Common failure / variation</label><textarea id="conceptFailure" placeholder="What breaks the pattern? What changes in variants?"></textarea><button class="btn" type="submit">Save concept card</button></form></section>
+ <section class="card span-7"><h2>Concept notebook</h2><input id="conceptSearch" placeholder="Search saved concepts…" style="margin-bottom:10px"><div id="conceptList"></div></section>
+</div></section>
+<section id="tab-tests" class="hidden"><div class="grid">
+ <section class="card span-5"><h2>Generate a practice set</h2><p class="muted">This local generator uses your logged weak patterns. For AI-generated variations and coaching, use the AI coach tab after configuring the backend.</p><label>Test length</label><select id="testLength"><option value="3">3 questions · 30 min</option><option value="5" selected>5 questions · 60 min</option><option value="7">7 questions · 90 min</option></select><label>Test type</label><select id="testType"><option value="weak">Weakest patterns first</option><option value="mixed">Mixed interview round</option><option value="review">Patterns needing review</option></select><button class="btn" id="makeTest">Generate test</button></section>
+ <section class="card span-7"><h2>Your test</h2><div id="testOutput"><p class="muted">Generate a test to see problems, time boxes and verbal prompts.</p></div></section>
+</div></section>
+<section id="tab-ai" class="hidden"><div class="grid">
+ <section class="card span-5"><h2>Your AI coach</h2>
+  <p class="muted">The coach reviews your saved attempts, cold-solve results, review outcomes, mistakes and concept notes. It uses that evidence to recommend what to study next for Big Tech SDE interviews.</p>
+  <div class="callout"><b>Privacy and cost</b><p class="small">Nothing is sent until you check the consent box and click an AI action. The selected study data is sent through your authenticated Supabase Edge Function to the AI provider. API usage may cost money depending on your provider account. The private AI key stays on the server.</p></div>
+  <div class="check"><input id="aiConsent" type="checkbox"><span>I consent to sending my DSA study records and any text/code I submit in this tab to the configured AI service for the action I request.</span></div>
+  <div class="actions"><button class="btn" id="aiAnalyze">Analyze my progress</button><button class="btn secondary" id="aiPlan">Build my 7-day plan</button><button class="btn secondary" id="aiVariations">Generate variations</button></div>
+  <p id="aiStatus" class="small">AI is not configured until the Edge Function and server-side API key are deployed.</p>
+ </section>
+ <section class="card span-7"><div class="section-head"><h2>Personalized analysis</h2><button class="btn ghost" id="aiClear">Clear saved AI reports</button></div><div id="aiReport"><p class="muted">Run an analysis after setting up the AI backend. Reports are saved with your dashboard progress.</p></div></section>
+ <section class="card span-6"><h2>Ask your coach</h2><p class="small">Ask why you are stuck, what to revise, how to prove an invariant, or how to prioritize interview preparation.</p><label>Your question</label><textarea id="aiQuestion" placeholder="Based on my recent attempts, what is the biggest weakness I should fix first?"></textarea><button class="btn" id="aiAsk">Ask based on my progress</button><div id="aiAnswer" style="margin-top:12px"></div></section>
+ <section class="card span-6"><h2>Review Java code</h2><p class="small">Paste code and, optionally, the problem statement. Do not include passwords, tokens, or unrelated private information.</p><label>Problem statement / constraints (optional)</label><textarea id="aiCodeProblem" placeholder="Paste the problem statement or constraints"></textarea><label>Java code</label><textarea id="aiCode" style="min-height:160px" placeholder="Paste your Java solution here"></textarea><button class="btn" id="aiReviewCode">Review my code</button><div id="aiCodeResult" style="margin-top:12px"></div></section>
+ <section class="card span-12"><h2>What the coach should measure</h2><div class="grid">
+  <div class="card span-4"><b>Pattern recognition</b><p class="small">Can you infer the right technique from constraints without seeing a tag?</p></div>
+  <div class="card span-4"><b>Implementation reliability</b><p class="small">Are mistakes caused by boundaries, state updates, data structures, or Java details?</p></div>
+  <div class="card span-4"><b>Retention and interview communication</b><p class="small">Can you solve cold after a delay, prove correctness, and explain complexity?</p></div>
+ </div></section>
+</div></section>
+<section id="tab-resources" class="hidden"><div class="grid">
+ <section class="card span-6"><h2>Core DSA learning resources</h2><div class="stack">
+  <div class="resource"><a href="https://neetcode.io/practice" target="_blank" rel="noreferrer">NeetCode 150</a><p class="small">Structured problem list by pattern. Use after learning the underlying concept; do not speed-run the list.</p></div>
+  <div class="resource"><a href="https://www.youtube.com/@NeetCode" target="_blank" rel="noreferrer">NeetCode YouTube</a><p class="small">Pattern-oriented walkthroughs. First attempt the problem yourself; then watch only the explanation you need.</p></div>
+  <div class="resource"><a href="https://visualgo.net/en" target="_blank" rel="noreferrer">VisuAlgo</a><p class="small">Visualize trees, graphs, heaps, sorting and data structures when a mental model is unclear.</p></div>
+  <div class="resource"><a href="https://cp-algorithms.com/" target="_blank" rel="noreferrer">CP-Algorithms</a><p class="small">Reference for deeper algorithmic explanations. Use selectively after fundamentals.</p></div>
+  <div class="resource"><a href="https://leetcode.com/problemset/" target="_blank" rel="noreferrer">LeetCode Problemset</a><p class="small">Primary practice platform. Tag a problem by the pattern you are learning, not by the solution you copied.</p></div>
+ </div></section>
+ <section class="card span-6"><h2>Video / concept workflow</h2><div class="stack">
+  <div class="resource"><b>1. Learn the data structure</b><p class="small">Understand operations, invariants and complexity before attempting pattern problems.</p></div>
+  <div class="resource"><b>2. Learn one base pattern</b><p class="small">Watch one focused explanation only if your own derivation fails. Pause before the code and predict the next step.</p></div>
+  <div class="resource"><b>3. Solve the base problem</b><p class="small">Use a 25–40 minute attempt window for a medium. Write brute force, identify the bottleneck, then optimize.</p></div>
+  <div class="resource"><b>4. Derive variations</b><p class="small">Change one constraint: sorted vs unsorted, exact vs at-most, one query vs many, static vs dynamic updates.</p></div>
+  <div class="resource"><b>5. Retrieve from memory</b><p class="small">Redo on +1, +3, +7, +14. If you need a hint, mark the review as struggled and reset the schedule.</p></div>
+ </div></section>
+ <section class="card span-12"><h2>24-week progression</h2><div id="roadmap"></div></section>
+</div></section>
+<section id="tab-settings" class="hidden"><div class="grid">
+ <section class="card span-6"><h2>Cloud sync setup</h2><p class="muted">To use the same data across devices, deploy this page and connect a free Supabase project. Local mode stores data in this browser only.</p>
+  <label>Supabase project URL</label><input id="sbUrl" placeholder="https://YOUR-PROJECT.supabase.co">
+  <label>Supabase anon / publishable key</label><input id="sbKey" placeholder="sb_publishable_... or anon public key">
+  <div class="row"><div><label>Email</label><input id="authEmail" type="email" placeholder="you@example.com"></div><div><label>Password</label><input id="authPassword" type="password" placeholder="At least 8 characters"></div></div>
+  <div class="actions"><button class="btn" id="connectCloud">Connect</button><button class="btn secondary" id="signUp">Create account</button><button class="btn secondary" id="signIn">Sign in</button><button class="btn ghost" id="signOut">Sign out</button></div>
+  <p class="small">Supabase credentials are stored in this browser. Never put a service-role key here. Use only the anon/publishable key with the RLS policy in the included setup guide.</p>
+ </section>
+ <section class="card span-6"><h2>Backup / restore</h2><p class="muted">Export a JSON backup regularly. This is also the fallback if cloud sync is not configured.</p><div class="actions"><button class="btn" id="exportData">Export JSON backup</button><label class="btn secondary" style="display:inline-block;cursor:pointer;margin:0">Import JSON backup<input type="file" id="importData" accept="application/json" style="display:none"></label></div><label>Danger zone</label><button class="btn danger" id="clearData">Delete all dashboard data on this device</button><p class="small">Import replaces current dashboard data. Exported files may contain your personal study notes.</p></section>
+ <section class="card span-12"><h2>Setup guide</h2><ol><li>Create a free Supabase project and copy the Project URL and anon/publishable key.</li><li>Open the included <code>supabase-setup.sql</code> in Supabase SQL Editor and run it.</li><li>Host <code>index.html</code> on GitHub Pages or another static host.</li><li>Open the hosted URL on each device, enter the same Supabase URL/key, then sign in with the same account.</li><li>For production-grade use, enable email confirmation in Supabase. If confirmation is enabled, follow the email verification link before signing in.</li><li>To enable the AI coach, deploy <code>supabase/functions/dsa-ai-coach/index.ts</code> using the Supabase CLI, set <code>OPENAI_API_KEY</code>, then restrict usage with <code>AI_ALLOWED_USER_ID</code> set to your own Supabase Auth user UUID. Read README.md for exact commands.</li></ol><p class="small">Cloud sync requires the database setup and authentication. AI also requires the Edge Function and a server-side OpenAI API key. API usage may cost extra. Never place a private AI key in this HTML file.</p></section>
+</div></section>
+<div class="footer">DSA Mastery Dashboard · Study data stays local unless you configure cloud sync or explicitly send selected records to the AI coach.</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const PATTERNS = [
+{name:"Arrays & hashing",subs:[
+["Traversal and in-place manipulation","Single-pass scan; read/write pointers; reverse traversal; cyclic placement; matrix traversal","Remove Duplicates from Sorted Array; Move Zeroes; First Missing Positive"],
+["Hashing","Membership; frequency map; value-to-index; canonical key; prefix-state counts; complement lookup","Contains Duplicate; Valid Anagram; Two Sum; Group Anagrams; Subarray Sum Equals K"],
+["Prefix / suffix","Prefix sums/products; suffix aggregates; prefix + HashMap; prefix XOR; difference arrays; 2D prefix sums","Range Sum Query – Immutable; Product of Array Except Self; Subarray Sum Equals K"],
+["Running aggregates","Kadane; running min/max; best-so-far; prefix/suffix combination","Maximum Subarray; Best Time to Buy and Sell Stock; Trapping Rain Water"]]},
+{name:"Two pointers",subs:[
+["Opposite-direction","Sorted pair sum; converging pointers; boundary optimization; palindrome comparison","Two Sum II; Container With Most Water; Valid Palindrome"],
+["Same-direction","Read/write; in-place filter; merge traversal; deduplicate sorted array","Remove Duplicates from Sorted Array; Move Zeroes; Merge Sorted Array"],
+["Fast and slow","Cycle detection/entry; middle node; nth from end; repeated state detection","Linked List Cycle; Linked List Cycle II; Middle of the Linked List"],
+["Multi-pointer / partition","3Sum; Dutch National Flag; three-sequence merge","3Sum; Sort Colors"]]},
+{name:"Sliding window",subs:[
+["Fixed-size","Fixed sum; max/min; frequency matching; average","Maximum Average Subarray I; Find All Anagrams in a String"],
+["Variable — longest valid","Expand right; shrink while invalid; maintain longest valid range","Longest Substring Without Repeating Characters; Max Consecutive Ones III; Fruit Into Baskets"],
+["Variable — shortest valid","Expand until valid; shrink while still valid; minimum length","Minimum Size Subarray Sum; Minimum Window Substring"],
+["Count windows","Count endings; at-most-K; exactly-K = at-most-K minus at-most-(K-1)","Subarrays with K Different Integers; Binary Subarrays With Sum"],
+["Monotonic deque","Sliding maximum/minimum; discard dominated candidates","Sliding Window Maximum"]]},
+{name:"Binary search",subs:[
+["Classic","Exact target; ascending/descending; iterative/recursive","Binary Search"],
+["Boundary search","First/last occurrence; lower/upper bound; first true/last true","Find First and Last Position; Search Insert Position"],
+["Binary search on answer","Minimize maximum; maximize minimum; feasibility predicate + greedy checker","Koko Eating Bananas; Capacity To Ship Packages Within D Days; Split Array Largest Sum"],
+["Rotated / partially ordered","Rotated search; minimum; duplicates; peak/bitonic","Search in Rotated Sorted Array; Find Minimum in Rotated Sorted Array; Find Peak Element"],
+["2D search","Flattened matrix; row/column sorted; kth smallest","Search a 2D Matrix; Search a 2D Matrix II; Kth Smallest Element in a Sorted Matrix"],
+["Continuous domain","Floating-point answer; numerical roots; time/distance feasibility","Sqrt(x); continuous feasibility problems"],
+["Combined patterns","Binary search + prefix sums/greedy/ordered structures; binary lifting","Time Based Key-Value Store; Koko Eating Bananas; Kth Ancestor of a Tree Node"]]},
+{name:"Linked lists",subs:[
+["Pointer rewiring","Full/partial reversal; reverse in groups; reconnect split lists","Reverse Linked List; Reverse Linked List II; Reverse Nodes in k-Group"],
+["Dummy / sentinel","Delete nodes; merge lists; partition; simplify head changes","Remove Nth Node From End; Merge Two Sorted Lists; Partition List"],
+["Fast/slow positioning","Middle; cycle entry; palindrome; nth from end","Linked List Cycle II; Palindrome Linked List"],
+["Merge and reorder","Merge two/k lists; reorder first/last; merge sort","Merge Two Sorted Lists; Reorder List; Sort List"],
+["Designed lists","Copy random pointer; doubly linked list + HashMap; flatten","Copy List with Random Pointer; LRU Cache"]]},
+{name:"Stacks & queues",subs:[
+["Basic stack","Brackets; undo/history; expression evaluation; nested parsing","Valid Parentheses; Evaluate Reverse Polish Notation; Decode String"],
+["Monotonic stack","Next/previous greater-smaller; stock span; histogram; contribution counts","Daily Temperatures; Next Greater Element I; Largest Rectangle in Histogram; Sum of Subarray Minimums"],
+["Queue / deque","FIFO; BFS frontier; sliding extrema; monotonic deque","Implement Queue using Stacks; Sliding Window Maximum"],
+["Stack design","Min in O(1); min/max tracking; parser state","Min Stack; Online Stock Span"]]},
+{name:"Trees & BSTs",subs:[
+["Traversal","Pre/in/postorder; BFS level order; iterative stack; zigzag; vertical/boundary","Binary Tree Inorder Traversal; Binary Tree Level Order Traversal; Zigzag Level Order Traversal"],
+["Recursive properties","Height/depth; diameter; balanced; equality/symmetry; top-down vs bottom-up","Maximum Depth of Binary Tree; Diameter of Binary Tree; Balanced Binary Tree; Same Tree"],
+["Path problems","Root-to-leaf; any-to-any; path sum; max path sum; prefix sum + backtracking","Path Sum; Path Sum II; Binary Tree Maximum Path Sum"],
+["LCA","General tree; BST; parent pointers; binary lifting","Lowest Common Ancestor of a Binary Tree; Lowest Common Ancestor of a BST"],
+["BST patterns","Search/insert/delete; validate bounds; kth smallest; predecessor/successor; balanced construction","Validate Binary Search Tree; Kth Smallest Element in a BST; Delete Node in a BST"],
+["Construction / encoding","Build from traversals; serialize/deserialize; flatten","Construct Binary Tree from Preorder and Inorder Traversal; Serialize and Deserialize Binary Tree; Flatten Binary Tree to Linked List"],
+["Advanced trees","Trie; tree DP; rerooting; Euler tour; binary lifting; range-query structures","Implement Trie; Kth Ancestor of a Tree Node; Range Sum Query – Mutable"]]},
+{name:"Heaps & priority queues",subs:[
+["Top K","K largest/smallest; top frequencies; size-K heap; heap vs sorting","Kth Largest Element in an Array; Top K Frequent Elements"],
+["K-way merge","Merge sorted lists/arrays; smallest range across lists","Merge K Sorted Lists; Smallest Range Covering Elements from K Lists"],
+["Two heaps","Median from stream; lower/upper halves","Find Median from Data Stream"],
+["Scheduling / greedy heap","Next best candidate; tasks; meeting rooms; combine minimums; stale entries","Meeting Rooms II; Task Scheduler; IPO"]]},
+{name:"Recursion & backtracking",subs:[
+["Recursion fundamentals","Base case; reduction; return-value/state-changing recursion; recursion tree","Pow(x, n); Maximum Depth of Binary Tree"],
+["Subsets / include-exclude","Choose/skip; duplicate-aware subsets; sum constraint","Subsets; Subsets II"],
+["Combinations","Choose K; combination sum with/without reuse; prune target; avoid duplicates","Combinations; Combination Sum; Combination Sum II"],
+["Permutations","All permutations; used array/swap; duplicate-aware; constrained","Permutations; Permutations II"],
+["Grid/path","Path enumeration; mark/unmark visited; word search; pruning","Word Search; Path with Maximum Gold"],
+["Constraint satisfaction","N-Queens; Sudoku; valid placement; branch ordering","N-Queens; Sudoku Solver"],
+["Combined","Trie + DFS; bitmask + recursion; memoization; branch and bound","Word Search II; Partition to K Equal Sum Subsets"]]},
+{name:"Graphs",subs:[
+["Representation","Adjacency list/matrix/edge list; directed/undirected; weighted/unweighted; implicit grids","Build adjacency list; Number of Islands"],
+["BFS","Unweighted shortest path; multi-source; layers; state-space; grid; extra state","Rotting Oranges; Shortest Path in Binary Matrix; Word Ladder"],
+["DFS","Components; reachability; flood fill; cycles; grid; entry/exit state","Number of Islands; Clone Graph; Max Area of Island"],
+["Cycle detection","Undirected parent; directed recursion states; topo cycle; DSU","Graph Valid Tree; Course Schedule; Redundant Connection"],
+["Topological sort","Kahn indegrees; DFS ordering; dependencies; DAG paths","Course Schedule; Course Schedule II; Parallel Courses"],
+["Union-Find / DSU","Path compression; union by rank/size; connectivity; components; grid","Redundant Connection; Number of Provinces; Accounts Merge"],
+["Shortest paths","BFS; 0–1 BFS; Dijkstra; Bellman–Ford; Floyd–Warshall; DAG; constrained state","Network Delay Time; Cheapest Flights Within K Stops; Find the City With the Smallest Number of Neighbors at a Threshold Distance"],
+["Minimum spanning tree","Kruskal + DSU; Prim + priority queue","Min Cost to Connect All Points"],
+["Special graph patterns","Bipartite; SCC; bridges/articulation; Eulerian; Tarjan/Kosaraju","Is Graph Bipartite?; Critical Connections in a Network"]]},
+{name:"Dynamic programming",subs:[
+["1D DP","Fibonacci; climbing stairs; minimum cost; take/skip; non-adjacent max","Climbing Stairs; Min Cost Climbing Stairs; House Robber"],
+["Grid / 2D DP","Number of paths; minimum cost; obstacles; multiple cell states","Unique Paths; Minimum Path Sum; Unique Paths II"],
+["Knapsack","0/1; unbounded; subset sum; equal partition; count subsets; target-sum transform","Partition Equal Subset Sum; Target Sum; Coin Change"],
+["Coin change / counting","Minimum coins; combinations; ordered vs unordered; unbounded transitions","Coin Change; Coin Change II; Combination Sum IV"],
+["Sequence DP","LIS; LCS; palindromic subsequence; edit distance; insert/delete","Longest Increasing Subsequence; Longest Common Subsequence; Edit Distance"],
+["String DP","Match/skip; wildcard; regex; palindrome; word segmentation","Word Break; Palindromic Substrings; Regular Expression Matching"],
+["State-machine DP","Stock states; cooldown; transaction limits; hold/not-hold","Best Time to Buy and Sell Stock with Cooldown; Best Time to Buy and Sell Stock III"],
+["Interval DP","Choose last operation; partition interval; combine subintervals","Burst Balloons; Minimum Cost to Cut a Stick"],
+["Tree / graph DP","Tree take/skip; DAG; subtree states; rerooting; longest DAG path","House Robber III; Longest Increasing Path in a Matrix"],
+["Bitmask / advanced DP","Subset bitmask; TSP states; digit DP; monotonic queue; compression","Shortest Path Visiting All Nodes; Partition to K Equal Sum Subsets"]]},
+{name:"Greedy",subs:[
+["Greedy selection","Sort by end time; earliest finish; compatible selections; exchange argument","Non-overlapping Intervals; Maximum Length of Pair Chain"],
+["Reachability / coverage","Jump reachability; min jumps frontier; gas station; refuels","Jump Game; Jump Game II; Gas Station; Minimum Number of Refueling Stops"],
+["Greedy allocation","Match sorted demands/resources; task assignment; minimize waste","Assign Cookies; Boats to Save People"],
+["Greedy + heap","Keep best candidates; priority scheduling; merge minimum cost","Task Scheduler; IPO; Reorganize String"],
+["Greedy + stack","Remove digits; lexicographically optimal subsequence; monotonic removal","Remove K Digits; Smallest Subsequence of Distinct Characters"],
+["Correctness proofs","Exchange argument; greedy-choice property; staying-ahead; counterexamples; compare DP","Jump Game; Non-overlapping Intervals; Gas Station"]]},
+{name:"Intervals & sweep line",subs:[
+["Merge intervals","Merge overlaps; insert; remove minimum overlaps; sort then merge","Merge Intervals; Insert Interval; Non-overlapping Intervals"],
+["Scheduling / resources","Minimum meeting rooms; heap allocation; maximum concurrent intervals","Meeting Rooms II; My Calendar I"],
+["Sweep line","Start/end events; active counts; coordinate compression; geometric sweeps","The Skyline Problem; My Calendar III"],
+["Difference events","Range increments/decrements; prefix reconstruction; offline range queries","Corporate Flight Bookings; Car Pooling"]]},
+{name:"Bit manipulation & math",subs:[
+["Bitwise operations","AND/OR/XOR; set/clear/toggle/test; count bits; lowest set bit; power of two","Single Number; Number of 1 Bits; Counting Bits"],
+["Bitmask","Subset mask; enumerate subsets; membership; combine masks; bitmask DP","Subsets; Shortest Path Visiting All Nodes"],
+["Number theory","GCD/LCM; primality; sieve; modular arithmetic; fast exponentiation; divisors","Pow(x, n); Count Primes"],
+["XOR / arithmetic","XOR cancellation; missing/unique values; parity; overflow; modular count","Missing Number; Single Number; Sum of Two Integers"]]},
+{name:"Tries & range queries",subs:[
+["Trie","Prefix lookup; insert/search; wildcard; trie + DFS","Implement Trie; Design Add and Search Words; Word Search II"],
+["Fenwick tree","Prefix queries; point updates; range sums; coordinate compression","Range-sum and inversion-counting problems"],
+["Segment tree","Range sum/min/max; point updates; lazy propagation; custom aggregates","Range Sum Query – Mutable; My Calendar III"],
+["DSU revisit","Connectivity; cycle; component size; offline connectivity; MST","Redundant Connection; Accounts Merge"],
+["Designed structures","TreeMap/TreeSet; LRU/LFU; min/max stack; median stream; order statistics","LRU Cache; LFU Cache; Find Median from Data Stream"],
+["Specialized advanced","Sparse table; binary lifting; HLD; Mo’s algorithm; persistent segment tree; suffix arrays","Range Minimum Query; Kth Ancestor of a Tree Node"]]},
+{name:"String algorithms",subs:[
+["Frequency / canonical form","Character counts; anagram; sorted key; grouping","Valid Anagram; Group Anagrams"],
+["Substring windows","Fixed frequency window; longest unique; minimum cover; anagram matching","Longest Substring Without Repeating Characters; Minimum Window Substring; Find All Anagrams in a String"],
+["Palindromes","Two-ended; expand center; substring/subsequence DP; partitioning","Valid Palindrome; Longest Palindromic Substring; Palindromic Substrings; Palindrome Partitioning"],
+["Pattern matching","Naive; KMP/prefix function; Z algorithm; Rabin–Karp; trie","Find the Index of the First Occurrence in a String; implement KMP and Rabin–Karp"],
+["Parsing / transformation","Two pointers; stack decode; tokenization; run-length encoding; atoi","Decode String; String to Integer (atoi); Simplify Path"]]}
+];
+const ROADMAP=[
+["Weeks 1–2","Retention reset; arrays/hash maps; prefix/suffix; two pointers; sliding windows","Goal: recognize core array patterns and explain invariants."],
+["Weeks 3–4","Binary search (including answer search); linked lists; stacks/queues; monotonic stack/deque","Goal: solve common pointer and boundary problems from a blank file."],
+["Weeks 5–6","Recursion; tree traversals; tree properties; BST; path problems; LCA","Goal: derive recursive state and base cases correctly."],
+["Weeks 7–9","Graph representation; BFS/DFS; cycles; topological sort; DSU; shortest paths; MST","Goal: select algorithms based on graph weights and constraints."],
+["Weeks 10–11","Heaps; top K; k-way merge; two heaps; backtracking subsets/combinations/permutations","Goal: manage candidate sets and search trees."],
+["Weeks 12–15","1D/grid DP; knapsack; coin change; sequence/string DP; state machine; interval/tree DP","Goal: define state, transition, base case and iteration order."],
+["Weeks 16–17","Greedy proofs; intervals; scheduling; sweep line; difference events","Goal: justify greedy choices and handle interval boundaries."],
+["Weeks 18–19","Trie; bit manipulation; math; range query structures; specialized patterns only if core is stable","Goal: add less-common tools without neglecting fundamentals."],
+["Weeks 20–21","Mixed medium problems; two-pattern combinations; timed practice","Goal: identify patterns without being told the topic."],
+["Weeks 22–24","Mock interviews; timed rounds; weak-area repair; review old failures","Goal: consistent cold solves and clear verbal explanations."]
+];
+const RESLABEL={cold:"Solved cold",hint:"Solved with hint",editorial:"Needed editorial",failed:"Could not solve",redo:"Redo / revision"};
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const today=()=>{let d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
+const plus=(iso,n)=>{let d=new Date(iso+"T12:00:00");d.setDate(d.getDate()+n);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
+const uid=()=>Math.random().toString(36).slice(2,9)+Date.now().toString(36);
+const safe=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const blank=()=>({attempts:[],concepts:[],reviews:[],studyDays:[],aiReports:[],aiChats:[],settings:{goalHours:6}});
+let state=blank(), cloud=null, cloudUser=null, saveTimer=null, isLoading=false;
+function loadLocal(){try{const x=JSON.parse(localStorage.getItem("dsa-mastery-v1")||"null");if(x)state={...blank(),...x}}catch(e){}}
+function saveLocal(){localStorage.setItem("dsa-mastery-v1",JSON.stringify(state))}
+function setStatus(t){$("#syncStatus").textContent=t}
+function dayMark(){let d=today();if(!state.studyDays.includes(d))state.studyDays.push(d);state.studyDays=state.studyDays.slice(-400)}
+function scheduleReviews(attempt){const d=attempt.date;[1,3,7,14].forEach(n=>state.reviews.push({id:uid(),attemptId:attempt.id,due:plus(d,n),offset:n,status:"pending",doneAt:null}))}
+function persist(){saveLocal();if(cloud&&cloudUser&&!isLoading){clearTimeout(saveTimer);setStatus("Saving to cloud…");saveTimer=setTimeout(syncCloud,400)}else if(!cloudUser)setStatus("Saved on this device only")}
+async function syncCloud(){if(!cloud||!cloudUser)return;try{const {error}=await cloud.from("dsa_progress").upsert({user_id:cloudUser.id,payload:state,updated_at:new Date().toISOString()});if(error)throw error;setStatus("Cloud synced · "+cloudUser.email)}catch(e){setStatus("Cloud sync failed · local copy kept");console.error(e)}}
+function topicOptions(id){$(id).innerHTML=PATTERNS.map(p=>`<option>${safe(p.name)}</option>`).join("")}
+function dueReviews(){return state.reviews.filter(r=>r.status==="pending"&&r.due<=today()).sort((a,b)=>a.due.localeCompare(b.due))}
+function getAttempt(id){return state.attempts.find(a=>a.id===id)}
+function metrics(){const a=state.attempts, due=dueReviews(), cold=a.filter(x=>x.result==="cold").length, done=state.reviews.filter(r=>r.status==="passed").length;let streak=0,d=today(),days=new Set(state.studyDays);if(!days.has(d))d=plus(d,-1);while(days.has(d)){streak++;d=plus(d,-1)}return {total:a.length,cold,rate:a.length?Math.round(cold/a.length*100):0,due:due.length,concepts:state.concepts.length,streak,passed:done}}
+function patternStats(p){let a=state.attempts.filter(x=>x.topic===p.name);let cold=a.filter(x=>x.result==="cold").length;let reviews=state.reviews.filter(r=>r.status==="pending"&&r.due<=today()&&a.some(x=>x.id===r.attemptId)).length;return {count:a.length,cold,rate:a.length?cold/a.length:0,due:reviews}}
+function patternRank(){return PATTERNS.map(p=>({...p,...patternStats(p)})).sort((a,b)=>a.rate-b.rate||a.count-b.count)}
+function renderStats(){let m=metrics();$("#stats").innerHTML=[[m.total,"attempts logged"],[m.rate+"%","solved cold"],[m.due,"reviews due"],[m.streak,"day study streak"]].map(x=>`<div class="stat"><strong>${x[0]}</strong><span>${x[1]}</span></div>`).join("");$("#todayLabel").textContent=today()}
+function tile(p){let s=patternStats(p),pct=Math.round(s.rate*100);return `<button class="pattern" data-pattern="${safe(p.name)}"><b>${safe(p.name)}</b><span class="small">${s.count} attempts · ${s.cold} cold solves</span><div class="bar"><span style="width:${pct}%"></span></div><span class="small">${s.due?`<em class="due">${s.due} review(s) due</em>`:`${pct}% cold-solve rate`}</span></button>`}
+function renderPatternTiles(){let arr=patternRank();$("#overviewPatterns").innerHTML=arr.slice(0,8).map(tile).join("");$("#patternMap").innerHTML=PATTERNS.map(tile).join("");}
+function renderOverview(){
+ renderStats();let d=dueReviews(),rank=patternRank(),weak=rank.find(p=>p.count>0&&p.rate<.7),untouched=rank.find(p=>p.count===0);
+ let tasks=[];if(d.length)tasks.push(`<div class="item"><b class="due">1. Clear ${d.length} due review(s)</b><p class="small">Cold solve first. If stuck, mark struggled; do not read the solution immediately.</p></div>`);
+ if(weak)tasks.push(`<div class="item"><b>2. Repair ${safe(weak.name)}</b><p class="small">Only ${Math.round(weak.rate*100)}% of logged attempts were solved cold. Do 2–3 base problems in this family before adding more topics.</p></div>`);
+ if(untouched)tasks.push(`<div class="item"><b>${tasks.length+1}. Start ${safe(untouched.name)}</b><p class="small">Read the concept, attempt a base problem, then log the trigger and invariant.</p></div>`);
+ if(!tasks.length)tasks.push(`<div class="item"><b>Run a mixed test.</b><p class="small">Choose problems without looking at tags. Log each attempt honestly.</p></div>`);
+ $("#nextActions").innerHTML=tasks.join("");
+ $("#loopChecks").innerHTML=`<p class="small">For each problem:</p><div class="check"><input type="checkbox"><span>5–10 min: restate constraints and brute force.</span></div><div class="check"><input type="checkbox"><span>Find the pattern trigger and invariant.</span></div><div class="check"><input type="checkbox"><span>Code aloud in English; test edge cases.</span></div><div class="check"><input type="checkbox"><span>Write template + trigger sentence.</span></div><div class="check"><input type="checkbox"><span>Redo on +1, +3, +7, +14.</span></div>`;
+ $("#recent").innerHTML=state.attempts.slice(-6).reverse().map(a=>`<div class="item"><div class="item-title">${safe(a.name)}</div><p class="small">${safe(a.topic)} · ${safe(a.difficulty)} · ${RE_SLABEL_FIX(a.result)} · ${a.date}</p></div>`).join("")||`<p class="muted">No attempts yet. Start by logging one base problem.</p>`;
+ const dueAll=state.reviews.filter(r=>r.status==="pending").length, passed=state.reviews.filter(r=>r.status==="passed").length;
+ $("#retention").innerHTML=`<p><b>${passed}</b> cold reviews passed · <b>${dueAll}</b> pending reviews not yet passed.</p><p class="small">A high solved count with a low cold-solve rate means the knowledge is not stable. Use spaced retrieval, not rewatching, as the primary retention test.</p>`;
+}
+function RE_SLABEL_FIX(x){return RESLABEL[x]||x}
+function renderPatternDetail(name){let p=PATTERNS.find(x=>x.name===name);if(!p){$("#patternDetail").innerHTML="";return}$("#patternDetail").innerHTML=`<div class="card"><div class="section-head"><div><h2>${safe(p.name)}</h2><p class="muted">Subpatterns and representative base problems</p></div><button class="btn" data-log-topic="${safe(p.name)}">Log a problem in this family</button></div>${p.subs.map((s,i)=>`<details open><summary>${safe(s[0])}</summary><p><b>Subpatterns:</b> ${safe(s[1])}</p><p><b>Base problems:</b> ${safe(s[2])}</p><button class="btn secondary" data-subpattern="${safe(s[0])}" data-topic="${safe(p.name)}">Use in log form</button></details>`).join("")}</div>`}
+function renderReviews(){let filter=$("#reviewFilter").value||"due",rs=state.reviews.filter(r=>filter==="all"?r.status==="pending":filter==="failed"?r.status==="struggled":r.status==="pending"&&r.due<=today()).sort((a,b)=>a.due.localeCompare(b.due));$("#reviewList").innerHTML=rs.map(r=>{let a=getAttempt(r.attemptId);if(!a)return"";return `<div class="item"><div class="item-title">${safe(a.name)} <span class="pill">Day +${r.offset}</span></div><p class="small">${safe(a.topic)} · original result: ${RE_SLABEL_FIX(a.result)} · due ${r.due}</p><p>${safe(a.trigger||"Trigger not recorded")}</p><div class="actions"><button class="btn" data-review-pass="${r.id}">Passed cold</button><button class="btn secondary" data-review-struggle="${r.id}">Struggled</button><button class="btn ghost" data-variation="${a.id}">Show variation prompts</button></div><div id="variation-${a.id}-${r.id}" class="small"></div></div>`}).join("")||`<p class="muted">No reviews in this view.</p>`}
+function renderConcepts(){let q=($("#conceptSearch").value||"").toLowerCase();let c=state.concepts.filter(x=>(x.name+" "+x.topic+" "+x.trigger+" "+x.template+" "+x.failure).toLowerCase().includes(q)).slice().reverse();$("#conceptList").innerHTML=c.map(x=>`<details><summary>${safe(x.name)} <span class="pill">${safe(x.topic)}</span></summary><p><b>Trigger:</b> ${safe(x.trigger||"—")}</p><p><b>Template / notes:</b><br>${safe(x.template).replace(/\n/g,"<br>")}</p><p><b>Failure / variation:</b> ${safe(x.failure||"—")}</p><p class="small">Saved ${x.date}</p><button class="btn danger" data-delete-concept="${x.id}">Delete concept</button></details>`).join("")||`<p class="muted">No concepts saved. Save your 10-line template and trigger sentence after solving.</p>`}
+function renderRoadmap(){$("#roadmap").innerHTML=ROADMAP.map(x=>`<details><summary>${x[0]} · ${x[1]}</summary><p>${x[2]}</p></details>`).join("")}
+function render(){renderStats();renderPatternTiles();renderOverview();renderReviews();renderConcepts();renderRoadmap();renderAIReports()}
+function goTab(t){$$(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===t));["overview","patterns","log","reviews","concepts","tests","ai","resources","settings"].forEach(x=>$("#tab-"+x).classList.toggle("hidden",x!==t));if(t==="reviews")renderReviews()}
+function variationPrompts(a){const map={
+"Arrays & hashing":["What changes if the input contains duplicates?","Can you reduce auxiliary space?","What if there are many queries on the same data?"],
+"Two pointers":["What if the input is unsorted? Can sorting help, and what does it cost?","What invariant lets one pointer move safely?","How would you handle duplicate values?"],
+"Sliding window":["Does the window condition remain monotonic when the left edge moves?","What changes for exactly K instead of at most K?","Can prefix sums or a deque solve a related version?"],
+"Binary search":["What is the monotonic predicate and why?","Find correct lower/upper bounds and prove the invariant.","What changes if duplicates or rotated order are allowed?"],
+"Linked lists":["Can you solve it with O(1) extra space?","What if the list has a cycle or is empty?","Which pointer links must be saved before rewiring?"],
+"Stacks & queues":["Which values can be discarded permanently?","Do you need next greater, previous smaller, or a range boundary?","What invariant is maintained by the stack/deque?"],
+"Trees & BSTs":["Is the answer local to a node or dependent on a whole path?","What should recursion return to the parent?","Can you solve it iteratively and what state must the stack store?"],
+"Heaps & priority queues":["Would a size-K heap be better than sorting?","What is the priority key and when can an item be removed?","How would you handle stale entries or ties?"],
+"Recursion & backtracking":["What is the decision at each level?","What state must be undone when returning?","Which pruning rule is safe?"],
+"Graphs":["Is the graph weighted? Are negative weights possible?","Is this reachability, connectivity, ordering or shortest path?","What prevents revisiting states or detects a cycle?"],
+"Dynamic programming":["Define dp state in one sentence. What does dp[i] mean?","What are the base cases and transition?","Can you optimize space without losing required prior states?"],
+"Greedy":["What local choice are you making and why is it safe?","Can you construct a counterexample to the greedy rule?","Can you prove it using an exchange argument?"],
+"Intervals & sweep line":["What is the sort key and how are touching endpoints handled?","Would a heap or sweep-line event count be more appropriate?","What if intervals arrive dynamically?"],
+"Bit manipulation & math":["What does each bit represent?","Can XOR cancellation or a bitmask simplify state?","What overflow or signed-integer issue exists?"],
+"Tries & range queries":["Are updates dynamic or is the data static?","What query/update complexity is required?","Would a Fenwick tree, segment tree, trie or ordered map fit?"],
+"String algorithms":["Is this a substring, subsequence, prefix or matching problem?","Can frequency counts or a window maintain the needed property?","Would KMP, rolling hash, trie or DP be appropriate?"]};
+return map[a.topic]||["What is the key invariant?","Can the input constraints change?","What is the time/space trade-off?"]}
+function generateTest(){let n=+$("#testLength").value,type=$("#testType").value,rank=patternRank(),pool=[];if(type==="review"){pool=state.reviews.filter(r=>r.status==="pending").map(r=>getAttempt(r.attemptId)).filter(Boolean).map(a=>({name:a.name,topic:a.topic,reason:"Review logged pattern",trigger:a.trigger}));}else if(type==="mixed"){pool=PATTERNS.map(p=>({name:p.subs[0][2].split(";")[0],topic:p.name,reason:"Mixed pattern",trigger:p.subs[0][1]}))}else{let sorted=rank.filter(p=>p.count>0).concat(rank.filter(p=>p.count===0));pool=sorted.flatMap(p=>p.subs.slice(0,2).map(s=>({name:s[2].split(";")[0].trim(),topic:p.name,reason:p.count===0?"Untouched pattern":`${Math.round(p.rate*100)}% cold-solve rate`,trigger:s[1]})))}if(!pool.length)pool=PATTERNS.slice(0,n).map(p=>({name:p.subs[0][2].split(";")[0],topic:p.name,reason:"Starter test",trigger:p.subs[0][1]}));pool=[...new Map(pool.map(p=>[p.name,p])).values()];let chosen=[];while(chosen.length<Math.min(n,pool.length)){let p=pool[chosen.length%pool.length];if(!chosen.some(x=>x.name===p.name))chosen.push(p);else {let alt=pool.find(x=>!chosen.some(y=>y.name===x.name));if(!alt)break;chosen.push(alt)}}let mins=Math.round(60/chosen.length);$("#testOutput").innerHTML=`<div class="callout"><b>Blind test rules</b><p class="small">Solve without opening the details. Explain brute force, the pattern you infer, the invariant, complexity and edge cases aloud. Reveal the pattern only after your attempt.</p></div>${chosen.map((p,i)=>`<div class="item"><b>${i+1}. ${safe(p.name)}</b><p class="small">${mins} min · solve before revealing the topic</p><details><summary>Reveal pattern and variation prompts</summary><p><b>Pattern:</b> ${safe(p.topic)}</p><p><b>Recognition clue:</b> ${safe(p.trigger||"Use the problem constraints to derive the pattern.")}</p><p><b>Variations to test:</b></p><ul>${variationPrompts(p).map(x=>`<li>${safe(x)}</li>`).join("")}</ul><p class="small">After solving, record your result and one variation in the log.</p></details></div>`).join("")}<h3>Verbal defense</h3><ol><li>What is the brute-force approach?</li><li>What observation improves it?</li><li>What invariant proves correctness?</li><li>What are time and auxiliary-space complexity?</li><li>Which edge case could break your implementation?</li></ol>`}
+
+function aiStudyPayload(){
+ const attempts=(state.attempts||[]).slice(-150).map(a=>({name:a.name,topic:a.topic,subpattern:a.subpattern,difficulty:a.difficulty,result:a.result,minutes:a.minutes,trigger:a.trigger,idea:a.idea,mistake:a.mistake,date:a.date}));
+ const reviews=(state.reviews||[]).slice(-150).map(r=>({offset:r.offset,status:r.status,due:r.due,doneAt:r.doneAt,attemptName:(getAttempt(r.attemptId)||{}).name,topic:(getAttempt(r.attemptId)||{}).topic}));
+ const concepts=(state.concepts||[]).slice(-50).map(c=>({topic:c.topic,name:c.name,trigger:c.trigger,template:c.template,failure:c.failure,date:c.date}));
+ const patternMetrics=PATTERNS.map(p=>({name:p.name,...patternStats(p)}));
+ const previousReports=(state.aiReports||[]).slice(-5).map(r=>({title:r.title,date:r.date,text:String(r.text||"").slice(0,5000)}));
+ const recentCoachChat=(state.aiChats||[]).slice(-10).map(c=>({question:String(c.question||"").slice(0,1000),answer:String(c.answer||"").slice(0,2500),date:c.date}));
+ return {goal:"Prepare for Big Tech SDE interviews using Java and DSA pattern mastery",summary:metrics(),patternMetrics,attempts,reviews,concepts,studyDays:(state.studyDays||[]).slice(-90),previousReports,recentCoachChat,patterns:PATTERNS.map(p=>({name:p.name,subpatterns:p.subs.map(x=>x[0])}))};
+}
+function renderAIReports(){
+ const reports=(state.aiReports||[]).slice().reverse();
+ $("#aiReport").innerHTML=reports.map(r=>`<details ${reports[0]===r?"open":""}><summary>${safe(r.title||"AI coach report")} · ${safe(r.date||"")}</summary><div style="white-space:pre-wrap;margin-top:10px">${safe(r.text||"")}</div></details>`).join("")||`<p class="muted">No AI reports saved yet.</p>`;
+}
+function setAIStatus(text){$("#aiStatus").textContent=text}
+async function callAICoach(action,extra={}){
+ if(!$("#aiConsent").checked){alert("Please check the consent box first. This confirms that you want to send the selected study data to the AI service.");return}
+ if(!cloud){alert("First connect your Supabase project in Settings and sign in.");goTab("settings");return}
+ const {data:{session}}=await cloud.auth.getSession();
+ if(!session){alert("Sign in to your Supabase account first.");goTab("settings");return}
+ const btns=["#aiAnalyze","#aiPlan","#aiVariations","#aiAsk","#aiReviewCode"].map(x=>$(x));
+ btns.forEach(b=>b.disabled=true);
+ setAIStatus("AI is analyzing the selected data…");
+ try{
+  const payload={action,study:aiStudyPayload(),...extra};
+  const {data,error}=await cloud.functions.invoke("dsa-ai-coach",{body:payload});
+  if(error)throw error;
+  if(!data||!data.text)throw new Error("The AI function returned no text.");
+  const title=({analyze:"Progress analysis",plan:"7-day personalized plan",variations:"Targeted problem variations",ask:"Coach answer",code_review:"Java code review"})[action]||"AI coach";
+  if(action==="ask"){$("#aiAnswer").innerHTML=`<div class="callout" style="white-space:pre-wrap">${safe(data.text)}</div>`;state.aiChats=state.aiChats||[];state.aiChats.push({question:extra.question,answer:data.text,date:today()});state.aiChats=state.aiChats.slice(-30)}
+  else if(action==="code_review"){$("#aiCodeResult").innerHTML=`<div class="callout" style="white-space:pre-wrap">${safe(data.text)}</div>`}
+  else {state.aiReports=state.aiReports||[];state.aiReports.push({title,text:data.text,date:today(),action});state.aiReports=state.aiReports.slice(-10);renderAIReports()}
+  persist();setAIStatus("AI response received · saved to your dashboard.");
+ }catch(e){console.error(e);setAIStatus("AI request failed. Check Edge Function deployment, secrets and Supabase logs.");alert("AI request failed: "+(e.message||"Unknown error")+". Check that the dsa-ai-coach Edge Function is deployed and OPENAI_API_KEY is set in Supabase secrets.")}
+ finally{btns.forEach(b=>b.disabled=false)}
+}
+function exportJson(){const blob=new Blob([JSON.stringify({version:1,exportedAt:new Date().toISOString(),state},null,2)],{type:"application/json"});let a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="dsa-mastery-backup-"+today()+".json";a.click();URL.revokeObjectURL(a.href)}
+function importJson(file){let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result),d=x.state||x;if(!Array.isArray(d.attempts)||!Array.isArray(d.concepts)||!Array.isArray(d.reviews))throw Error("Invalid backup format");if(!confirm("Replace current dashboard data with this backup?"))return;state={...blank(),...d};persist();render();alert("Backup imported.")}catch(e){alert("Could not import: "+e.message)}};r.readAsText(file)}
+async function connect(){let url=$("#sbUrl").value.trim(),key=$("#sbKey").value.trim();if(!url||!key){alert("Enter Supabase project URL and anon/publishable key.");return}localStorage.setItem("dsa-sb-url",url);localStorage.setItem("dsa-sb-key",key);if(!window.supabase){alert("Supabase client did not load. Check internet access and reload.");return}cloud=window.supabase.createClient(url,key);setStatus("Supabase configured · sign in to sync");}
+async function auth(action){if(!cloud){await connect();if(!cloud)return}let email=$("#authEmail").value.trim(),password=$("#authPassword").value;if(!email||!password){alert("Enter email and password.");return}let res=action==="up"?await cloud.auth.signUp({email,password}):action==="in"?await cloud.auth.signInWithPassword({email,password}):await cloud.auth.signOut();if(res.error){alert(res.error.message);return}if(action==="up"&&!res.data.session){alert("Account created. If email confirmation is enabled, verify your email, then sign in.");return}if(action==="out"){cloudUser=null;setStatus("Signed out · local mode");return}cloudUser=res.data.user;await loadCloudData();setStatus("Cloud synced · "+(cloudUser.email||email));}
+function mergeCloudAndLocal(cloudState,localState){const mergeById=(remote,local)=>{const seen=new Set(remote.map(x=>x.id));return [...remote,...local.filter(x=>!seen.has(x.id))]};return {...blank(),...cloudState,attempts:mergeById(cloudState.attempts||[],localState.attempts||[]),concepts:mergeById(cloudState.concepts||[],localState.concepts||[]),reviews:mergeById(cloudState.reviews||[],localState.reviews||[]),studyDays:[...new Set([...(cloudState.studyDays||[]),...(localState.studyDays||[])])],settings:{...(localState.settings||{}),...(cloudState.settings||{})}}}
+async function loadCloudData(){if(!cloud||!cloudUser)return;isLoading=true;try{let {data,error}=await cloud.from("dsa_progress").select("payload").eq("user_id",cloudUser.id).maybeSingle();if(error)throw error;const owner=localStorage.getItem("dsa-cloud-owner");const sameAccount=!owner||owner===cloudUser.id;if(data&&data.payload){const cloudState={...blank(),...data.payload};const merged=sameAccount?mergeCloudAndLocal(cloudState,state):cloudState;const needsUpload=JSON.stringify(merged)!==JSON.stringify(cloudState);state=merged;saveLocal();localStorage.setItem("dsa-cloud-owner",cloudUser.id);if(needsUpload)await syncCloud()}else{if(owner&&owner!==cloudUser.id)state=blank();localStorage.setItem("dsa-cloud-owner",cloudUser.id);saveLocal();await syncCloud()}render()}catch(e){setStatus("Cloud load failed · local data kept");console.error(e)}finally{isLoading=false}}
+function initCloud(){let u=localStorage.getItem("dsa-sb-url"),k=localStorage.getItem("dsa-sb-key");if(u)$("#sbUrl").value=u;if(k)$("#sbKey").value=k;if(u&&k&&window.supabase){cloud=window.supabase.createClient(u,k);cloud.auth.getSession().then(async({data})=>{if(data.session){cloudUser=data.session.user;await loadCloudData();setStatus("Cloud synced · "+(cloudUser.email||"account"))}})}}
+$$(".nav button").forEach(b=>b.addEventListener("click",()=>goTab(b.dataset.tab)));
+document.addEventListener("click",e=>{let go=e.target.closest("[data-go]");if(go)goTab(go.dataset.go);let p=e.target.closest("[data-pattern]");if(p){goTab("patterns");renderPatternDetail(p.dataset.pattern)}let l=e.target.closest("[data-log-topic]");if(l){goTab("log");$("#problemTopic").value=l.dataset.logTopic}let s=e.target.closest("[data-subpattern]");if(s){goTab("log");$("#problemTopic").value=s.dataset.topic;$("#problemSubpattern").value=s.dataset.subpattern;$("#problemName").focus()}let pass=e.target.closest("[data-review-pass]");if(pass){let r=state.reviews.find(x=>x.id===pass.dataset.reviewPass);if(r){r.status="passed";r.doneAt=today();dayMark();persist();render()}}let strugg=e.target.closest("[data-review-struggle]");if(strugg){let r=state.reviews.find(x=>x.id===strugg.dataset.reviewStruggle);if(r){r.status="struggled";r.doneAt=today();let a=getAttempt(r.attemptId);if(a){let nr={...a,id:uid(),date:today(),result:"redo",minutes:0,trigger:a.trigger,idea:a.idea,mistake:"Struggled on review for Day +"+r.offset};state.attempts.push(nr);scheduleReviews(nr)}dayMark();persist();render()}}let v=e.target.closest("[data-variation]");if(v){let a=getAttempt(v.dataset.variation);if(a){let box=v.parentElement.querySelector(".small:last-child");box.innerHTML="<b>Variation prompts</b><br>"+variationPrompts(a).map(safe).join("<br>")}}let dc=e.target.closest("[data-delete-concept]");if(dc){state.concepts=state.concepts.filter(x=>x.id!==dc.dataset.deleteConcept);persist();renderConcepts()}});
+$("#problemForm").addEventListener("submit",e=>{e.preventDefault();let a={id:uid(),name:$("#problemName").value.trim(),topic:$("#problemTopic").value,subpattern:$("#problemSubpattern").value.trim(),difficulty:$("#problemDifficulty").value,result:$("#problemResult").value,minutes:+$("#problemMinutes").value||0,trigger:$("#problemTrigger").value.trim(),idea:$("#problemIdea").value.trim(),mistake:$("#problemMistake").value.trim(),url:$("#problemUrl").value.trim(),date:today()};state.attempts.push(a);scheduleReviews(a);dayMark();persist();e.target.reset();$("#problemTopic").value=a.topic;render();goTab("overview")});
+$("#conceptForm").addEventListener("submit",e=>{e.preventDefault();state.concepts.push({id:uid(),topic:$("#conceptTopic").value,name:$("#conceptName").value.trim(),trigger:$("#conceptTrigger").value.trim(),template:$("#conceptTemplate").value.trim(),failure:$("#conceptFailure").value.trim(),date:today()});dayMark();persist();e.target.reset();renderConcepts();renderStats()});
+$("#patternSearch").addEventListener("input",()=>{let q=$("#patternSearch").value.toLowerCase();$("#patternMap").innerHTML=PATTERNS.filter(p=>(p.name+" "+p.subs.flat().join(" ")).toLowerCase().includes(q)).map(tile).join("")});
+$("#conceptSearch").addEventListener("input",renderConcepts);$("#reviewFilter").addEventListener("change",renderReviews);$("#makeTest").addEventListener("click",generateTest);
+$("#settingsBtn").addEventListener("click",()=>goTab("settings"));$("#connectCloud").addEventListener("click",connect);$("#signUp").addEventListener("click",()=>auth("up"));$("#signIn").addEventListener("click",()=>auth("in"));$("#signOut").addEventListener("click",()=>auth("out"));$("#exportData").addEventListener("click",exportJson);$("#importData").addEventListener("change",e=>{if(e.target.files[0])importJson(e.target.files[0]);e.target.value=""});$("#clearData").addEventListener("click",()=>{if(confirm("Delete all dashboard data from this browser? Export a backup first if needed.")){state=blank();saveLocal();render();setStatus("Local data cleared") }});
+$("#aiAnalyze").addEventListener("click",()=>callAICoach("analyze"));
+$("#aiPlan").addEventListener("click",()=>callAICoach("plan"));
+$("#aiVariations").addEventListener("click",()=>callAICoach("variations"));
+$("#aiAsk").addEventListener("click",()=>{const question=$("#aiQuestion").value.trim();if(!question){alert("Enter a question first.");return}callAICoach("ask",{question})});
+$("#aiReviewCode").addEventListener("click",()=>{const code=$("#aiCode").value.trim();if(!code){alert("Paste your Java code first.");return}callAICoach("code_review",{code,problem:$("#aiCodeProblem").value.trim()})});
+$("#aiClear").addEventListener("click",()=>{if(confirm("Delete saved AI reports and coach chat history from this dashboard?")){state.aiReports=[];state.aiChats=[];persist();renderAIReports();$("#aiAnswer").innerHTML="";$("#aiCodeResult").innerHTML=""}});
+topicOptions("#problemTopic");topicOptions("#conceptTopic");loadLocal();render();initCloud();
+</script>
+</body></html>
