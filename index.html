@@ -340,7 +340,28 @@ async function callAICoach(action,extra={}){
   else if(action==="code_review"){$("#aiCodeResult").innerHTML=`<div class="callout" style="white-space:pre-wrap">${safe(data.text)}</div>`}
   else {state.aiReports=state.aiReports||[];state.aiReports.push({title,text:data.text,date:today(),action});state.aiReports=state.aiReports.slice(-10);renderAIReports()}
   persist();setAIStatus("AI response received · saved to your dashboard.");
- }catch(e){console.error(e);setAIStatus("AI request failed. Check Edge Function deployment, secrets and Supabase logs.");alert("AI request failed: "+(e.message||"Unknown error")+". Check that the dsa-ai-coach Edge Function is deployed and OPENAI_API_KEY is set in Supabase secrets.")}
+ }catch(e){
+  console.error("AI coach request failed:",e);
+  let detail=e?.message||"Unknown error";
+  const response=e?.context;
+  if(response){
+   try{
+    const copy=typeof response.clone==="function"?response.clone():response;
+    const contentType=copy.headers?.get?.("content-type")||"";
+    if(contentType.includes("application/json")){
+     const body=await copy.json();
+     detail=body?.error||body?.message||body?.msg||detail;
+    }else if(typeof copy.text==="function"){
+     const bodyText=await copy.text();
+     if(bodyText)detail=bodyText.slice(0,700);
+    }
+   }catch(parseError){
+    console.warn("Could not read AI error response:",parseError);
+   }
+  }
+  setAIStatus("AI request failed: "+detail);
+  alert("AI request failed: "+detail);
+ }
  finally{btns.forEach(b=>b.disabled=false)}
 }
 function exportJson(){const blob=new Blob([JSON.stringify({version:1,exportedAt:new Date().toISOString(),state},null,2)],{type:"application/json"});let a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="dsa-mastery-backup-"+today()+".json";a.click();URL.revokeObjectURL(a.href)}
